@@ -11,6 +11,7 @@ type Props = {
 const DataTable = (props: Props) => {
   const handleDelete = (id: number) => {
     //api call to delete the item
+    //example - axios.detele(`/api/{slug}/id`)
     console.log(id + "has been deleted");
   };
 
