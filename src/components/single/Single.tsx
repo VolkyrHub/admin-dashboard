@@ -54,85 +54,82 @@ const data = [
   },
 ];
 
-const Single = () => {
+type Props = {
+  id: number;
+  img?: string;
+  title: string;
+  info: object;
+  chart: {
+    dataKeys: { name: string; color: string }[];
+    data: object[];
+  };
+  activities?: { time: string; text: string }[];
+};
+
+const Single = (props: Props) => {
   return (
     <div className="single">
       <div className="view">
         <div className="info">
           <div className="topInfo">
-            <img
-              src="https://images.pexels.com/photos/8405873/pexels-photo-8405873.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
-              alt=""
-            />
-            <h1>Yatel Lara</h1>
+            {props.img && <img src={props.img} alt="" />}
+            <h1>{props.title}</h1>
             <button>Update</button>
           </div>
           <div className="details">
-            <div className="item">
-              <span className="itemTitle">Username:</span>
-              <span className="itemValue">Yatel Lara</span>
-            </div>
-            <div className="item">
-              <span className="itemTitle">Username:</span>
-              <span className="itemValue">Yatel Lara</span>
-            </div>
-            <div className="item">
-              <span className="itemTitle">Username:</span>
-              <span className="itemValue">Yatel Lara</span>
-            </div>
+            {Object.entries(props.info).map((item) => (
+              <div className="item" key={item[0]}>
+                <span className="itemTitle">{item[0]}</span>
+                <span className="itemValue">{item[1]}</span>
+              </div>
+            ))}
           </div>
         </div>
         <hr />
-        <div className="chart">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              width={500}
-              height={300}
-              data={data}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="pv"
-                stroke="#8884d8"
-                activeDot={{ r: 8 }}
-              />
-              <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+        {props.chart && (
+          <div className="chart">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                width={500}
+                height={300}
+                data={props.chart.data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                {props.chart.dataKeys.map((dataKey) => (
+                  <Line
+                    type="monotone"
+                    dataKey={dataKey.name}
+                    stroke={dataKey.color}
+                  />
+                ))}
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
       </div>
       <div className="activities">
         <h2>Latest activites</h2>
-        <ul>
-          <li>
-            <div>
-              <p>Yatel Lara purchased Playstation 5 Digital Edition</p>
-              <time>7 days ago</time>
-            </div>
-          </li>
-          <li>
-            <div>
-              <p>Yatel Lara purchased Playstation 5 Digital Edition</p>
-              <time>7 days ago</time>
-            </div>
-          </li>
-          <li>
-            <div>
-              <p>Yatel Lara purchased Playstation 5 Digital Edition</p>
-              <time>7 days ago</time>
-            </div>
-          </li>
-        </ul>
+        {props.activities && (
+          <ul>
+            {props.activities.map((activity) => (
+              <li key={activity.text}>
+                <div>
+                  <p>{activity.text}</p>
+                  <time>{activity.time}</time>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

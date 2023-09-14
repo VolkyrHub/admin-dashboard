@@ -1,4 +1,5 @@
 import Single from "../../components/single/Single";
+import { singleProduct } from "../../data";
 import "./product.scss";
 
 export const Product = () => {
@@ -6,7 +7,7 @@ export const Product = () => {
 
   return (
     <div className="product">
-      <Single />
+      <Single {...singleProduct} />
     </div>
   );
 };
